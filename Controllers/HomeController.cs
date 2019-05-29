@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebMash.Models;
+using WebMash.ViewModel;
 
 namespace WebMash.Controllers
 {
@@ -13,6 +15,18 @@ namespace WebMash.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        [Authorize]
+        //[Route("profile")]
+        public IActionResult Profile()
+        {
+            var model = new ProfileViewModel
+            {
+                Name = User.Identity.Name,
+                Claims = User.Claims
+            };
+            return View(model);
         }
 
         public IActionResult Privacy()
